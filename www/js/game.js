@@ -150,11 +150,9 @@ window.onload = function() {
             facing = 'dead';
 
 
-
-		    setTimeout(function(){
-
-		        game.state.restart();
-		     }, 1200);
+            // After 1.2 seconds restart the game. Cause we are dead!
+            game.time.events.add(Phaser.Timer.SECOND * 1.2, restart, this);
+		    
 
 
 			}
@@ -167,6 +165,10 @@ window.onload = function() {
 
      game.state.add("Play",play);
      game.state.start("Play");
+     
+     function restart(){
+        game.state.restart();
+     }
 
     // Update the score and best
 	function updateScore(){
@@ -230,7 +232,7 @@ window.onload = function() {
           game.input.onUp.remove(jump, this);
 
 
-          //jump_sound.play();
+          jump_sound.play();
 
 
      }
