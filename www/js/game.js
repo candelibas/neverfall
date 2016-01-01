@@ -21,25 +21,26 @@ window.onload = function() {
 	var ninjaJumpPower;
 	var score=0;
 	var scoreText;
-     var topScore;
-     var powerBar;
-     var powerTween;
-     var waves;
-     var placedPoles;
-	   var poleGroup;
-     var minPoleGap = 100;
-     var maxPoleGap = 300;
-     var ninjaJumping;
-     var ninjaFallingDown;
-     var jump_sound;
-     var death_sound;
-     var play = function(game){}
-     play.prototype = {
+  var topScore;
+  var powerBar;
+  var powerTween;
+  var waves;
+  var placedPoles;
+	var poleGroup;
+  var minPoleGap = 100;
+  var maxPoleGap = 300;
+  var ninjaJumping;
+  var ninjaFallingDown;
+  var jump_sound;
+  var death_sound;
+  var play = function(game){}
+  play.prototype = {
 		preload:function(){
 
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 			game.scale.setScreenSize(true);
 
+      // Load assets
       game.load.image("pole", "asset/pole/1.png");
       game.load.image("powerbar", "asset/powerbar.png");
       game.load.image("bg", "asset/bg/1.png");
@@ -48,10 +49,11 @@ window.onload = function() {
       game.load.spritesheet("dragon", "asset/dragon.png", 135, 187, 6);
       game.load.spritesheet("jump_kango", "asset/jump_kango.png", 40, 70);
       game.load.spritesheet("waves", "asset/waves.png", 640, 70);
-
       //game.load.audio("death_sound", "asset/sound/game_over.wav");
 		},
 		create:function(){
+
+      // Initialize variables
 			ninjaJumping = false;
 			ninjaFallingDown = false;
 			score = 0;
@@ -59,9 +61,6 @@ window.onload = function() {
 
 			// Add the background
 			game.add.tileSprite(0, 0, 1000, 600, 'bg');
-
-
-
 
 
 
@@ -151,8 +150,8 @@ window.onload = function() {
 
 
             // After 1.2 seconds restart the game. Cause we are dead!
-            game.time.events.add(Phaser.Timer.SECOND * 1.2, restart, this);
-		    
+            game.time.events.add(Phaser.Timer.SECOND * 1.2, die, this);
+
 
 
 			}
@@ -162,15 +161,12 @@ window.onload = function() {
 
 		}
 	}
-
+     // Define our Play state and play!
      game.state.add("Play",play);
      game.state.start("Play");
-     
-     function restart(){
-        game.state.restart();
-     }
 
-    // Update the score and best
+
+  // Update the current score and best score
 	function updateScore(){
 		scoreText.text = "Score: "+score+"\nBest: "+topScore;
 	}
@@ -261,7 +257,7 @@ window.onload = function() {
 	function die(){
 
 		localStorage.setItem("topFlappyScore",Math.max(score,topScore));
-		game.state.start("Play");
+		game.state.restart();
 	}
 	function checkLanding(n,p){
 		if(n.body.touching.down){
